@@ -24,7 +24,7 @@ class acf_injector {
 		add_action( 'wp_ajax_check_words', array( $this, 'check_words' ) );
 		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ) );
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
-		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 4 );
+		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 5 );
 	}
 
 	public function scripts() {
@@ -120,22 +120,22 @@ class acf_injector {
 				if ( $object['ng-type-select'] == 2 ) {
 					$uq_word_list = explode( ',', $object['unique_ng_word'] );
 					foreach ( $uq_word_list as $word ) {
-						if ( strpos( $value, $word ) !== false ) {
+						if ( ! empty( $word ) && strpos( $value, $word ) !== false ) {
 							$valid = 'Contains NG word';
-							return $valid;
 						}
 					}
+					return $valid;
+
 				} elseif ( $object['ng-type-select'] == 1 ) {
 					$setting_word = explode( ',', get_field( 'word-list', 'option' ) );
 					foreach ( $setting_word as $word ) {
-						if ( strpos( $value, $word ) !== false ) {
+						if ( ! empty( $word ) && strpos( $value, $word ) !== false ) {
 							$valid = 'Contains NG word';
-							return $valid;
 						}
 					}
+					return $valid;
 				}
 			}
 		}
-		return $valid;
 	}
 }
