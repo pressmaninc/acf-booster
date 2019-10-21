@@ -23,6 +23,8 @@ class acf_injector {
 		add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'scripts' ) );
 		add_action( 'wp_ajax_check_words', array( $this, 'check_words' ) );
 		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ) );
+		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
+		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 4 );
 	}
 
 	public function scripts() {
@@ -93,17 +95,47 @@ class acf_injector {
 	}
 
 	public function check_words() {
-		if ( isset( $_POST['target_field'] ) ) {
-			$target = str_replace( 'acf-', '', $_POST['target_field'] );
-			$object = get_field_object( $target );
-			if ( $object['ng-type-select'] == 2 ) {
-				echo $object['unique_ng_word'];
-			} elseif ( $object['ng-type-select'] == 1 ) {
-				echo get_field( 'word-list', 'option' );
-			} else {
-				echo 'undefined';
+		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+			if ( isset( $_POST['target_field'] ) ) {
+				$target = str_replace( 'acf-', '', $_POST['target_field'] );
+				$object = get_field_object( $target );
+				if ( $object['ng-type-select'] == 2 ) {
+					echo json_encode( $object['unique_ng_word'] );
+				} elseif ( $object['ng-type-select'] == 1 ) {
+					echo json_encode( get_field( 'word-list', 'option' ) );
+				} else {
+					echo json_encode( 'undefined' );
+				}
 			}
 		}
 		die();
+	}
+	public function block_post( $valid, $value, $field, $input ) {
+		if ( ! $valid ) {
+			return $valid;
+		}
+		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+			foreach ( $field as $key => $fieldkey ) {
+				$object = get_field_object( $fieldkey );
+				if ( $object['ng-type-select'] == 2 ) {
+					$uq_word_list = explode( ',', $object['unique_ng_word'] );
+					foreach ( $uq_word_list as $word ) {
+						if ( strpos( $value, $word ) !== false ) {
+							$valid = 'Contains NG word';
+							return $valid;
+						}
+					}
+				} elseif ( $object['ng-type-select'] == 1 ) {
+					$setting_word = explode( ',', get_field( 'word-list', 'option' ) );
+					foreach ( $setting_word as $word ) {
+						if ( strpos( $value, $word ) !== false ) {
+							$valid = 'Contains NG word';
+							return $valid;
+						}
+					}
+				}
+			}
+		}
+		return $valid;
 	}
 }
