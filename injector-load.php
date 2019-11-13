@@ -1,11 +1,11 @@
 <?php
 add_action( 'acf/init', 'loading_injector' );
+
 function loading_injector() {
 
 	if ( ! function_exists( 'acf_add_options_page' ) ) {
 		return;
 	}
-	// add parent
 	$parent = acf_add_options_page(
 		array(
 			'page_title' => __( 'ACF-injector' ),
@@ -16,7 +16,6 @@ function loading_injector() {
 		)
 	);
 	if ( get_field( 'ngword-control', 'option' ) == '1' ) {
-		// add sub page
 		acf_add_options_sub_page(
 			array(
 				'page_title'  => 'NG word setting',

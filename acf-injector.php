@@ -1,20 +1,18 @@
 <?php
 /*
   Plugin Name: ACF injector
-  Plugin URI: https://example.com
-  Description: first public plugin
+  Description: Add functionality to Advanced Custom Fields
   Version: 1.0
-  Author: John A. Huebner II
-  License: GPL
+  Author: Shu Kano
+  License: GNU GPL v2
 */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-new acf_injector();
-
 class acf_injector {
-	public function __construct() {
+	private static $instance;
+	private function __construct() {
 		require_once( plugin_dir_path( __FILE__ ) . 'injector-load.php' );
 		require_once( plugin_dir_path( __FILE__ ) . 'acf-input-counter.php' );
 		add_action( 'acf/render_field_settings/type=textarea', array( $this, 'render_function_setting' ) );
@@ -25,6 +23,12 @@ class acf_injector {
 		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ) );
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
 		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 5 );
+	}
+	public static function getInstance() {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new acf_injector();
+		}
+		return self::$instance;
 	}
 
 	public function scripts() {
@@ -37,8 +41,7 @@ class acf_injector {
 			wp_register_script( 'acf-word-check.js', plugin_dir_url( __FILE__ ) . '/js/acf-word-check.js', false, 1 );
 			wp_enqueue_script( 'acf-word-check.js' );
 		}
-	} // end public function scripts
-
+	}
 
 	public function render_function_setting( $field ) {
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
@@ -68,6 +71,7 @@ class acf_injector {
 				true
 			);
 		}
+
 		if ( get_field( 'counter-control', 'option' ) == '1' ) {
 			acf_render_field_setting(
 				$field,
@@ -83,6 +87,7 @@ class acf_injector {
 		}
 
 	}
+
 	public function my_acf_field_group_admin_enqueue_scripts() {
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
 			wp_register_script( 'render-ngword-setting.js', plugin_dir_url( __FILE__ ) . '/js/render-ngword-setting.js', false, 1 );
@@ -110,6 +115,7 @@ class acf_injector {
 		}
 		die();
 	}
+
 	public function block_post( $valid, $value, $field, $input ) {
 		if ( ! $valid ) {
 			return $valid;
@@ -139,3 +145,4 @@ class acf_injector {
 		}
 	}
 }
+$launch = acf_injector::getInstance();

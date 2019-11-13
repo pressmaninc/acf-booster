@@ -31,4 +31,3 @@
     }
   });
 })(jQuery);
-//setting_switch.insertAfter('tr[class="acf-field acf-field-number acf-field-setting-maxlength"]');

@@ -16,6 +16,7 @@
             'target_field' : target_field,
         },
         success: function( response ){
+          response = JSON.parse(response);
           if(response != 'undefined'){
             var badword = response.split(",");
             var i = 0;
@@ -57,6 +58,7 @@
             'target_field' : target_field,
         },
         success: function( response ){
+          response = JSON.parse(response);
           if(response != 'undefined'){
             var badword = response.split(",");
             var i = 0;
