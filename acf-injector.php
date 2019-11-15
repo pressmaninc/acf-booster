@@ -9,6 +9,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+//NG words setting field key
+define( 'word_setting_key', 'field_5d9488ed2762d' );
 
 class acf_injector {
 	private static $instance;
@@ -169,8 +171,7 @@ class acf_injector {
 	 * @return $valid
 	 */
 	public function block_post( $valid, $value, $field, $input ) {
-		$currentpage = $_GET['page'];
-		if ( ! $valid || $_GET['page'] == $currentpage ) {
+		if ( ! $valid || $field['key'] == word_setting_key ) {
 			return $valid;
 		}
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
