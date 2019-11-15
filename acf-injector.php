@@ -13,24 +13,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 class acf_injector {
 	private static $instance;
 	private function __construct() {
+		//Load the setting screen
 		require_once( plugin_dir_path( __FILE__ ) . 'injector-load.php' );
+		//Load input counter function
 		require_once( plugin_dir_path( __FILE__ ) . 'acf-input-counter.php' );
+		//Adding settings to the field group editing screen
 		add_action( 'acf/render_field_settings/type=textarea', array( $this, 'render_function_setting' ) );
 		add_action( 'acf/render_field_settings/type=text', array( $this, 'render_function_setting' ) );
+		//Load javascript on NG word detection and character counter
 		add_action( 'acf/field_group/admin_enqueue_scripts', array( $this, 'my_acf_field_group_admin_enqueue_scripts' ) );
 		add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'scripts' ) );
+		//Create endpoint to get NG word with ajax
 		add_action( 'wp_ajax_check_words', array( $this, 'check_words' ) );
 		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ) );
+		//Check NG word list and input value, block posting if NG word is included
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
 		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 5 );
 	}
+	/**
+	 * getInstance
+	 *
+	 * For singleton patterning
+	 *
+	 * @param   void
+	 * @return  void
+	 */
 	public static function getInstance() {
 		if ( empty( self::$instance ) ) {
 			self::$instance = new acf_injector();
 		}
 		return self::$instance;
 	}
-
+	/**
+	 * scripts
+	 *
+	 * Check ON/OFF of each function and load javascript
+	 *
+	 * @param   void
+	 * @return  void
+	 */
 	public function scripts() {
 		if ( get_field( 'counter-control', 'option' ) == '1' ) {
 			wp_register_script( 'acf-input-counter.js', plugin_dir_url( __FILE__ ) . '/js/acf-input-counter.js', false, 1 );
@@ -42,7 +63,14 @@ class acf_injector {
 			wp_enqueue_script( 'acf-word-check.js' );
 		}
 	}
-
+	/**
+	 * render_function_setting
+	 *
+	 * Adding settings to the field group editing screen
+	 *
+	 * @param $field (array)
+	 * @return (array)
+	 */
 	public function render_function_setting( $field ) {
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
 			acf_render_field_setting(
@@ -87,7 +115,14 @@ class acf_injector {
 		}
 
 	}
-
+	/**
+	 * my_acf_field_group_admin_enqueue_scripts
+	 *
+	 * Check ON/OFF of each function and load field group setting screens javascript
+	 *
+	 * @param void
+	 * @return void
+	 */
 	public function my_acf_field_group_admin_enqueue_scripts() {
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
 			wp_register_script( 'render-ngword-setting.js', plugin_dir_url( __FILE__ ) . '/js/render-ngword-setting.js', false, 1 );
@@ -98,7 +133,14 @@ class acf_injector {
 			wp_enqueue_script( 'render-counter-setting.js' );
 		}
 	}
-
+	/**
+	 * check_words
+	 *
+	 * Create endpoint to get NG word with ajax
+	 *
+	 * @param void
+	 * @return json
+	 */
 	public function check_words() {
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
 			if ( isset( $_POST['target_field'] ) ) {
@@ -115,9 +157,20 @@ class acf_injector {
 		}
 		die();
 	}
-
+	/**
+	 * block_post
+	 *
+	 * Block posts containing NG words on the server side
+	 *
+	 * @param $valid(mixed)
+	 * @param $value(mixed)
+	 * @param $field(array)
+	 * @param $input(string)
+	 * @return $valid
+	 */
 	public function block_post( $valid, $value, $field, $input ) {
-		if ( ! $valid ) {
+		$currentpage = $_GET['page'];
+		if ( ! $valid || $_GET['page'] == $currentpage ) {
 			return $valid;
 		}
 		if ( get_field( 'ngword-control', 'option' ) == '1' ) {

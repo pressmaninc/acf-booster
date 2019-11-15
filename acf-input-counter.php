@@ -3,10 +3,18 @@
 
 class acf_input_counter {
 	public function __construct() {
+		//Output to a field that has a limited number of characters and the counter function is enabled
 		add_action( 'acf/render_field/type=text', array( $this, 'render_field' ), 20, 1 );
 		add_action( 'acf/render_field/type=textarea', array( $this, 'render_field' ), 20, 1 );
 	}
-
+	/**
+	 * run
+	 *
+	 * Confirm the settings and create a flag
+	 *
+	 * @param   void
+	 * @return  bool
+	 */
 	private function run() {
 		$run = true;
 		global $post;
@@ -15,7 +23,14 @@ class acf_input_counter {
 		}
 		return $run;
 	}
-
+	/**
+	 * render_field
+	 *
+	 * Output to a field that has a limited number of characters and the counter function is enabled
+	 *
+	 * @param $field (array)
+	 * @return mixed
+	 */
 	public function render_field( $field ) {
 		if ( ! $this->run() ||
 			! $field['maxlength'] ||
@@ -62,7 +77,15 @@ class acf_input_counter {
 				</span>
 			<?php
 	}
-
+	/**
+	 * render_field
+	 *
+	 * See if any of those values are in $exist
+	 *
+	 * @param $allow ($ids)
+	 * @param $exist (array)
+	 * @return bool
+	 */
 	private function check( $allow, $exist ) {
 		$intersect = array_intersect( $allow, $exist );
 		if ( count( $intersect ) ) {
