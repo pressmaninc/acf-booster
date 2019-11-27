@@ -1,15 +1,23 @@
-const { getEditedPostAttribute } = wp.data.select( 'core/editor' );
-const title = getEditedPostAttribute( 'title' );
-const content = getEditedPostAttribute( 'content' );
+// Check function use of Gutenberg
+function isGutenbergActive() {
+    return typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined';
+}
 
+// Declare constants if Gutenberg is used
+if(isGutenbergActive()){
+  const { getEditedPostAttribute } = wp.data.select( 'core/editor' );
+  const title = getEditedPostAttribute( 'title' );
+  const content = getEditedPostAttribute( 'content' );
+}
+
+// Detect prohibited characters in text field
 (function($) {
   acf.fields.word_check = acf.field.extend({
 		type: 'text',
-
 		events: {
 			'blur input': 'change_count',
 		},
-
+    // Check the word when the field value is updated
 		change_count: function(e){
       var target_field = e.$el.attr('id');
       $.ajax({
@@ -19,6 +27,7 @@ const content = getEditedPostAttribute( 'content' );
             'action' : 'check_words',
             'target_field' : target_field,
         },
+        // Validate prohibited words and input values received from endpoints
         success: function( response ){
           response = JSON.parse(response);
           if(response != 'undefined'){
@@ -26,17 +35,26 @@ const content = getEditedPostAttribute( 'content' );
             var i = 0;
             for ( i = 0  ; i < badword.length ; i ++ ) {
               if ( e.$el.val().indexOf(badword[i]) != -1 ) {
-                wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+                // Check for duplicate alerts
                 if(!($(`#alert-${target_field}`).length)){
-                  wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                  e.$el.before(`<div class="notice notice-error" id="alert-${target_field}">Contains NG word</div>`);
+                  // Block post and display alert if using Gutenberg
+                  if(isGutenbergActive()){
+                    wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
+                    wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+                  }
+                  // Display an alert if prohibited words are included
+                  e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
                 }
                 return;
               }
               else{
+                // Turn off alert when input no longer contains prohibited words
                 $(`#alert-${target_field}`).remove();
-                wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
-                wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
+                // Unlock if you are using Gutenberg
+                if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+                  wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
+                  wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
+                }
                 return;
               }
             }
@@ -48,6 +66,7 @@ const content = getEditedPostAttribute( 'content' );
 	});
 })(jQuery);
 
+// Detect prohibited characters in textarea field
 (function($) {
   acf.fields.word_check_textarea = acf.field.extend({
 		type: 'textarea',
@@ -55,7 +74,7 @@ const content = getEditedPostAttribute( 'content' );
 		events: {
 			'blur textarea': 'change_count',
 		},
-
+    // Check the word when the field value is updated
 		change_count: function(e){
       var target_field = e.$el.attr('id');
       $.ajax({
@@ -65,6 +84,7 @@ const content = getEditedPostAttribute( 'content' );
             'action' : 'check_words',
             'target_field' : target_field,
         },
+        // Validate prohibited words and input values received from endpoints
         success: function( response ){
           response = JSON.parse(response);
           if(response != 'undefined'){
@@ -72,17 +92,26 @@ const content = getEditedPostAttribute( 'content' );
             var i = 0;
             for ( i = 0  ; i < badword.length ; i ++ ) {
               if ( e.$el.val().indexOf(badword[i]) != -1) {
-                wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+                // Check for duplicate alerts
                 if(!($(`#alert-${target_field}`).length)){
-                  wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                  e.$el.before(`<div class="notice notice-error" id="alert-${target_field}">Contains NG word</div>`);
+                  // Block post and display alert if using Gutenberg
+                  if(isGutenbergActive()){
+                    wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
+                    wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+                  }
+                  // Display an alert if prohibited words are included
+                  e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
                 }
                 return;
               }
               else{
+                // Turn off alert when input no longer contains prohibited words
                 $(`#alert-${target_field}`).remove();
-                wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
-                wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
+                // Unlock if you are using Gutenberg
+                if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+                  wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
+                  wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
+                }
                 return;
               }
             }
