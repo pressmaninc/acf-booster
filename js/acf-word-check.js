@@ -16,7 +16,13 @@ if(isGutenbergActive()){
 		type: 'text',
 		events: {
 			'blur input': 'change_count',
+      'focusin input': 'lock_save',
 		},
+    lock_save: function(e){
+      if(isGutenbergActive()){
+        wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+      }
+    },
     // Check the word when the field value is updated
 		change_count: function(e){
       var target_field = e.$el.attr('id');
@@ -40,7 +46,6 @@ if(isGutenbergActive()){
                   // Block post and display alert if using Gutenberg
                   if(isGutenbergActive()){
                     wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                    wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
                   }
                   // Display an alert if prohibited words are included
                   e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
@@ -73,7 +78,13 @@ if(isGutenbergActive()){
 
 		events: {
 			'blur textarea': 'change_count',
+      'focusin input': 'lock_save',
 		},
+    lock_save: function(e){
+      if(isGutenbergActive()){
+        wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
+      }
+    },
     // Check the word when the field value is updated
 		change_count: function(e){
       var target_field = e.$el.attr('id');
@@ -97,7 +108,6 @@ if(isGutenbergActive()){
                   // Block post and display alert if using Gutenberg
                   if(isGutenbergActive()){
                     wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                    wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
                   }
                   // Display an alert if prohibited words are included
                   e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);

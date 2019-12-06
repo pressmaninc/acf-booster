@@ -55,12 +55,12 @@ class acf_injector {
 	 * @return  void
 	 */
 	public function scripts() {
-		if ( get_field( 'counter-control', 'option' ) == '1' ) {
+		if ( get_field( 'counter-control', 'option' ) ) {
 			wp_register_script( 'acf-input-counter.js', plugin_dir_url( __FILE__ ) . '/js/acf-input-counter.js', false, 1 );
 			wp_enqueue_script( 'acf-input-counter.js' );
 			wp_enqueue_style( 'acf-counter.css', plugins_url( 'acf-counter.css', __FILE__ ) );
 		}
-		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+		if ( get_field( 'ngword-control', 'option' ) ) {
 			wp_register_script( 'acf-word-check.js', plugin_dir_url( __FILE__ ) . '/js/acf-word-check.js', false, 1 );
 			wp_enqueue_script( 'acf-word-check.js' );
 		}
@@ -74,7 +74,7 @@ class acf_injector {
 	 * @return (array)
 	 */
 	public function render_function_setting( $field ) {
-		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+		if ( get_field( 'ngword-control', 'option' ) ) {
 			acf_render_field_setting(
 				$field,
 				array(
@@ -102,15 +102,16 @@ class acf_injector {
 			);
 		}
 
-		if ( get_field( 'counter-control', 'option' ) == '1' ) {
+		if ( get_field( 'counter-control', 'option' ) ) {
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Type Counter' ),
-					'instructions' => __( 'display the input characters?' ),
-					'name'         => 'show_count',
-					'type'         => 'true_false',
-					'ui'           => 1,
+					'label'         => __( 'Type Counter' ),
+					'instructions'  => __( 'display the input characters?' ),
+					'name'          => 'show_count',
+					'type'          => 'true_false',
+					'ui'            => 1,
+					'default_value' => 0,
 				),
 				true
 			);
@@ -126,11 +127,11 @@ class acf_injector {
 	 * @return void
 	 */
 	public function my_acf_field_group_admin_enqueue_scripts() {
-		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+		if ( get_field( 'ngword-control', 'option' ) ) {
 			wp_register_script( 'render-ngword-setting.js', plugin_dir_url( __FILE__ ) . '/js/render-ngword-setting.js', false, 1 );
 			wp_enqueue_script( 'render-ngword-setting.js' );
 		}
-		if ( get_field( 'counter-control', 'option' ) == '1' ) {
+		if ( get_field( 'counter-control', 'option' ) ) {
 			wp_register_script( 'render-counter-setting.js', plugin_dir_url( __FILE__ ) . '/js/render-counter-setting.js', false, 1 );
 			wp_enqueue_script( 'render-counter-setting.js' );
 		}
@@ -144,7 +145,7 @@ class acf_injector {
 	 * @return json
 	 */
 	public function check_words() {
-		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+		if ( get_field( 'ngword-control', 'option' ) ) {
 			if ( isset( $_POST['target_field'] ) ) {
 				$target = str_replace( 'acf-', '', $_POST['target_field'] );
 				$object = get_field_object( $target );
@@ -174,7 +175,7 @@ class acf_injector {
 		if ( ! $valid || $field['key'] == word_setting_key ) {
 			return $valid;
 		}
-		if ( get_field( 'ngword-control', 'option' ) == '1' ) {
+		if ( get_field( 'ngword-control', 'option' ) ) {
 			foreach ( $field as $key => $fieldkey ) {
 				$object = get_field_object( $fieldkey );
 				if ( $object['ng-type-select'] == 2 ) {

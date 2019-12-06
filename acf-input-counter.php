@@ -42,7 +42,7 @@ class acf_input_counter {
 		$classes = apply_filters( 'acf-input-counter/classes', array() );
 		$ids     = apply_filters( 'acf-input-counter/ids', array() );
 		$insert  = true;
-		if ( count( $classes ) || count( $ids ) ) {
+		if ( ( $classes ) || ( $ids ) ) {
 			$insert = false;
 			$exist  = array();
 			if ( $field['wrapper']['class'] ) {
