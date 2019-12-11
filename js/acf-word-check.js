@@ -33,35 +33,32 @@ if(isGutenbergActive()){
             'action' : 'check_words',
             'target_field' : target_field,
         },
-        // Validate prohibited words and input values received from endpoints
-        success: function( response ){
-          response = JSON.parse(response);
-          if(response != 'undefined'){
-            var badword = response.split(",");
-            var i = 0;
-            for ( i = 0  ; i < badword.length ; i ++ ) {
-              if ( e.$el.val().indexOf(badword[i]) != -1 ) {
-                // Check for duplicate alerts
-                if(!($(`#alert-${target_field}`).length)){
-                  // Block post and display alert if using Gutenberg
-                  if(isGutenbergActive()){
-                    wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                  }
-                  // Display an alert if prohibited words are included
-                  e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
+      // Validate prohibited words and input values received from endpoints
+    success: function( response ){
+        response = JSON.parse(response);
+        if(response != 'undefined'){
+          var badword = response.split(",");
+          if($.inArray(e.$el.val(), badword) != -1 && !e.$el.val() == ""){
+              // Check for duplicate alerts
+              if(!($(`#alert-${target_field}`).length)){
+                // Block post and display alert if using Gutenberg
+                if(isGutenbergActive()){
+                  wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
                 }
-                return;
+                // Display an alert if prohibited words are included
+                e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
               }
-              else{
-                // Turn off alert when input no longer contains prohibited words
-                $(`#alert-${target_field}`).remove();
-                // Unlock if you are using Gutenberg
-                if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
-                  wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
-                  wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
-                }
-                return;
+              return;
+            }
+            else{
+              // Turn off alert when input no longer contains prohibited words
+              $(`#alert-${target_field}`).remove();
+              // Unlock if you are using Gutenberg
+              if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+                wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
+                wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
               }
+              return;
             }
           }
         }
@@ -95,35 +92,32 @@ if(isGutenbergActive()){
             'action' : 'check_words',
             'target_field' : target_field,
         },
-        // Validate prohibited words and input values received from endpoints
-        success: function( response ){
-          response = JSON.parse(response);
-          if(response != 'undefined'){
-            var badword = response.split(",");
-            var i = 0;
-            for ( i = 0  ; i < badword.length ; i ++ ) {
-              if ( e.$el.val().indexOf(badword[i]) != -1) {
-                // Check for duplicate alerts
-                if(!($(`#alert-${target_field}`).length)){
-                  // Block post and display alert if using Gutenberg
-                  if(isGutenbergActive()){
-                    wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
-                  }
-                  // Display an alert if prohibited words are included
-                  e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
+    // Validate prohibited words and input values received from endpoints
+    success: function( response ){
+        response = JSON.parse(response);
+        if(response != 'undefined'){
+          var badword = response.split(",");
+          if($.inArray(e.$el.val(), badword) != -1 && !e.$el.val() == ""){
+              // Check for duplicate alerts
+              if(!($(`#alert-${target_field}`).length)){
+                // Block post and display alert if using Gutenberg
+                if(isGutenbergActive()){
+                  wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
                 }
-                return;
+                // Display an alert if prohibited words are included
+                e.$el.before(`<div class="notice notice-error" name="notice-flag" id="alert-${target_field}">Contains NG word</div>`);
               }
-              else{
-                // Turn off alert when input no longer contains prohibited words
-                $(`#alert-${target_field}`).remove();
-                // Unlock if you are using Gutenberg
-                if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
-                  wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
-                  wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
-                }
-                return;
+              return;
+            }
+            else{
+              // Turn off alert when input no longer contains prohibited words
+              $(`#alert-${target_field}`).remove();
+              // Unlock if you are using Gutenberg
+              if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+                wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
+                wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
               }
+              return;
             }
           }
         }
