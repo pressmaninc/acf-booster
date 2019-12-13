@@ -1,4 +1,4 @@
-=== ACF-Injector ===
+=== ACF-booster ===
 Contributors: shu-kano
 Tags: acf, custom fields
 Requires at least: 4.9
@@ -9,7 +9,7 @@ License: GNU GPL v2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-ACF-injector is a wordpress plugin for extending "Advanced Custom Fields" functionality.
+ACF-booster is a wordpress plugin for extending "Advanced Custom Fields" functionality.
 
 == Features ==
 Adds a counter to text fields with character limits.

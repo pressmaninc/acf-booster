@@ -1,6 +1,6 @@
-# ACF-injector
+# ACF-booster
 
-ACF-injector is a wordpress plugin for extending "Advanced Custom Fields" functionality.
+ACF-booster is a wordpress plugin for extending "Advanced Custom Fields" functionality.
 
 ## Features
 

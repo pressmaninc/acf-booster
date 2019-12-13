@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name: ACF injector
+  Plugin Name: ACF booster
   Description: Add functionality to Advanced Custom Fields
   Version: 1.0
   Author: Shu Kano
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 //NG words setting field key
 define( 'word_setting_key', 'field_5d9488ed2762d' );
 
-class acf_injector {
+class acf_booster {
 	private static $instance;
 	private function __construct() {
 		//Load the setting screen
@@ -42,7 +42,7 @@ class acf_injector {
 	 */
 	public static function getInstance() {
 		if ( empty( self::$instance ) ) {
-			self::$instance = new acf_injector();
+			self::$instance = new acf_booster();
 		}
 		return self::$instance;
 	}
@@ -200,4 +200,4 @@ class acf_injector {
 		}
 	}
 }
-$launch = acf_injector::getInstance();
+$launch = acf_booster::getInstance();

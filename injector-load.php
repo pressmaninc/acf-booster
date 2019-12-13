@@ -1,16 +1,16 @@
 <?php
-add_action( 'acf/init', 'loading_injector' );
+add_action( 'acf/init', 'loading_booster' );
 
-function loading_injector() {
+function loading_booster() {
 
 	if ( ! function_exists( 'acf_add_options_page' ) ) {
 		return;
 	}
 	$parent = acf_add_options_page(
 		array(
-			'page_title' => __( 'ACF-injector' ),
-			'menu_title' => __( 'ACF-injector' ),
-			'menu_slug'  => 'acf-injector',
+			'page_title' => __( 'ACF-booster' ),
+			'menu_title' => __( 'ACF-booster' ),
+			'menu_slug'  => 'acf-booster',
 			'capability' => 'edit_posts',
 			'redirect'   => false,
 		)
@@ -20,7 +20,7 @@ function loading_injector() {
 			array(
 				'page_title'  => 'NG word setting',
 				'menu_title'  => 'NG word setting',
-				'menu_slug'   => 'acf-injector-ng-setting',
+				'menu_slug'   => 'acf-booster-ng-setting',
 				'parent_slug' => $parent['menu_slug'],
 			)
 		);
@@ -57,7 +57,7 @@ function loading_injector() {
 						array(
 							'param'    => 'options_page',
 							'operator' => '==',
-							'value'    => 'acf-injector-ng-setting',
+							'value'    => 'acf-booster-ng-setting',
 						),
 					),
 				),
@@ -132,7 +132,7 @@ function loading_injector() {
 					array(
 						'param'    => 'options_page',
 						'operator' => '==',
-						'value'    => 'acf-injector',
+						'value'    => 'acf-booster',
 					),
 				),
 			),
