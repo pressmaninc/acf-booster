@@ -16,7 +16,7 @@ class acf_booster {
 	private static $instance;
 	private function __construct() {
 		//Load the setting screen
-		require_once( plugin_dir_path( __FILE__ ) . 'injector-load.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'booster-load.php' );
 		//Load input counter function
 		require_once( plugin_dir_path( __FILE__ ) . 'acf-input-counter.php' );
 		//Adding settings to the field group editing screen
