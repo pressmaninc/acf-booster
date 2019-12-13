@@ -10,15 +10,24 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 ACF-booster is a wordpress plugin for extending "Advanced Custom Fields" functionality.
+We plan to add various functions in the future.
 
 == Features ==
 Adds a counter to text fields with character limits.
 Set a prohibited word in the specified text field.
 
+== Requirements ==
+**This plugin requires ACF Pro **
+
 == Installation ==
+This section describes how to install the plugin and get it working.
 
 1. Upload the plugin package to the plugins directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
+
+== Frequently Asked Questions ==
+= Does it work with Gutenberg? =
+Yes, supports Classic Editor and Gutenberg
 
 == Screenshots ==
 1. Settings added to Advanced Custom Fields
