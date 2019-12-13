@@ -9,8 +9,8 @@ License: GNU GPL v2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
-ACF-booster is a wordpress plugin for extending "Advanced Custom Fields" functionality.
-We plan to add various functions in the future.
+"ACF Booster" is a plugin which boosts up  the functionality of Advanced Custom Fields.
+We will add more features soon.
 
 == Features ==
 * **NG Word Checker**
