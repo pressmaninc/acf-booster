@@ -1,4 +1,4 @@
-=== ACF-booster ===
+=== ACF Booster ===
 Contributors: shu-kano
 Tags: acf, custom fields
 Requires at least: 4.9
@@ -13,11 +13,15 @@ ACF-booster is a wordpress plugin for extending "Advanced Custom Fields" functio
 We plan to add various functions in the future.
 
 == Features ==
+* **NG Word Checker**
 Adds a counter to text fields with character limits.
+
+* **Character Counter**
 Set a prohibited word in the specified text field.
 
 == Requirements ==
 **This plugin requires ACF Pro **
+[ACF Pro](https://www.advancedcustomfields.com/pro/)
 
 == Installation ==
 This section describes how to install the plugin and get it working.
