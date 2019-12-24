@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 //NG words setting field key
 define( 'word_setting_key', 'field_5d9488ed2762d' );
 
-class acf_booster {
+class ACF_BOOSTER {
 	private static $instance;
 	private function __construct() {
 		//Load the setting screen
@@ -20,17 +20,17 @@ class acf_booster {
 		//Load input counter function
 		require_once( plugin_dir_path( __FILE__ ) . 'acf-input-counter.php' );
 		//Adding settings to the field group editing screen
-		add_action( 'acf/render_field_settings/type=textarea', array( $this, 'render_function_setting' ) );
-		add_action( 'acf/render_field_settings/type=text', array( $this, 'render_function_setting' ) );
+		add_action( 'acf/render_field_settings/type=textarea', array( $this, 'render_function_setting' ), 7 );
+		add_action( 'acf/render_field_settings/type=text', array( $this, 'render_function_setting' ), 7 );
 		//Load javascript on NG word detection and character counter
-		add_action( 'acf/field_group/admin_enqueue_scripts', array( $this, 'my_acf_field_group_admin_enqueue_scripts' ) );
-		add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'acf/field_group/admin_enqueue_scripts', array( $this, 'my_acf_field_group_admin_enqueue_scripts' ), 8 );
+		add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'scripts' ), 8 );
 		//Create endpoint to get NG word with ajax
-		add_action( 'wp_ajax_check_words', array( $this, 'check_words' ) );
-		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ) );
+		add_action( 'wp_ajax_check_words', array( $this, 'check_words' ), 9 );
+		add_action( 'wp_ajax_nopriv_check_words', array( $this, 'check_words' ), 9 );
 		//Check NG word list and input value, block posting if NG word is included
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
-		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 5 );
+		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 4 );
 	}
 	/**
 	 * getInstance
@@ -42,7 +42,7 @@ class acf_booster {
 	 */
 	public static function getInstance() {
 		if ( empty( self::$instance ) ) {
-			self::$instance = new acf_booster();
+			self::$instance = new ACF_BOOSTER();
 		}
 		return self::$instance;
 	}
@@ -200,4 +200,4 @@ class acf_booster {
 		}
 	}
 }
-$launch = acf_booster::getInstance();
+$launch = ACF_BOOSTER::getInstance();

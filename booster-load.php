@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 add_action( 'acf/init', 'loading_booster' );
 
 function loading_booster() {

@@ -1,11 +1,28 @@
 <?php
-	new acf_input_counter();
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-class acf_input_counter {
+class ACF_INPUT_COUNTER {
+	private static $instance;
 	public function __construct() {
 		//Output to a field that has a limited number of characters and the counter function is enabled
-		add_action( 'acf/render_field/type=text', array( $this, 'render_field' ), 20, 1 );
-		add_action( 'acf/render_field/type=textarea', array( $this, 'render_field' ), 20, 1 );
+		add_action( 'acf/render_field/type=text', array( $this, 'render_field' ), 10, 1 );
+		add_action( 'acf/render_field/type=textarea', array( $this, 'render_field' ), 10, 1 );
+	}
+	/**
+	 * getInstance
+	 *
+	 * For singleton patterning
+	 *
+	 * @param   void
+	 * @return  void
+	 */
+	public static function getInstance() {
+		if ( empty( self::$instance ) ) {
+			self::$instance = new ACF_INPUT_COUNTER();
+		}
+		return self::$instance;
 	}
 	/**
 	 * run
@@ -94,3 +111,4 @@ class acf_input_counter {
 		return false;
 	}
 }
+$launch = ACF_INPUT_COUNTER::getInstance();

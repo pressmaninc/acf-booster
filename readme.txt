@@ -14,10 +14,10 @@ We will add more features soon.
 
 == Features ==
 * **NG Word Checker**
-Adds a counter to text fields with character limits.
+Sets prohibited words in the specified text field.
 
 * **Character Counter**
-Set a prohibited word in the specified text field.
+Adds a counter to text fields with character limits.
 
 == Requirements ==
 **This plugin requires ACF Pro **
@@ -31,11 +31,11 @@ This section describes how to install the plugin and get it working.
 
 == Frequently Asked Questions ==
 = Does it work with Gutenberg? =
-Yes, supports Classic Editor and Gutenberg
+Yes, supports Classic Editor and Gutenberg.
 
 == Screenshots ==
-1. Settings added to Advanced Custom Fields
-2. Detection of prohibited words and counter operation
+1. Settings added to Advanced Custom Fields.
+2. Detection of prohibited words and counter operation.
 
 == Changelog ==
 = 1.0 =
