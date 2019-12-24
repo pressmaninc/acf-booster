@@ -1,10 +1,14 @@
 <?php
 /*
-  Plugin Name: ACF booster
-  Description: Add functionality to Advanced Custom Fields
-  Version: 1.0
-  Author: Shu Kano
-  License: GNU GPL v2
+	Plugin Name: ACF booster
+	Description: Add functionality to Advanced Custom Fields
+	Version: 1.0
+	Author: PRESSMAN
+	Author URI: https://www.pressman.ne.jp/
+	Text Domain: acf-additional-hint
+	Domain Path: /languages
+	License: GPLv2 or later
+	License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

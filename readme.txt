@@ -1,6 +1,6 @@
 === ACF Booster ===
-Contributors: shu-kano
-Tags: acf, custom fields
+Contributors: pressmaninc, koosta
+Tags: acf, custom fields, acf counter
 Requires at least: 4.9
 Tested up to: 5.3
 Requires PHP: 7.1.23
