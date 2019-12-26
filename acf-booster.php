@@ -38,6 +38,14 @@ class ACF_BOOSTER {
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
 		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 4 );
 	}
+	/**
+	 * acfb_load_textdomain
+	 *
+	 * Loading language files
+	 *
+	 * @param   void
+	 * @return  void
+	 */
 	function acfb_load_textdomain() {
 		load_plugin_textdomain( 'acf-booster', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	}
