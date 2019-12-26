@@ -5,8 +5,8 @@
 	Version: 1.0
 	Author: PRESSMAN
 	Author URI: https://www.pressman.ne.jp/
-	Text Domain: acf-additional-hint
-	Domain Path: /languages
+	Text Domain: acf-booster
+	Domain Path: /languages/
 	License: GPLv2 or later
 	License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -23,6 +23,8 @@ class ACF_BOOSTER {
 		require_once( plugin_dir_path( __FILE__ ) . 'booster-load.php' );
 		//Load input counter function
 		require_once( plugin_dir_path( __FILE__ ) . 'acf-input-counter.php' );
+		//loading Language Files
+		add_action( 'plugins_loaded', array( $this, 'acfb_load_textdomain' ), 6 );
 		//Adding settings to the field group editing screen
 		add_action( 'acf/render_field_settings/type=textarea', array( $this, 'render_function_setting' ), 7 );
 		add_action( 'acf/render_field_settings/type=text', array( $this, 'render_function_setting' ), 7 );
@@ -35,6 +37,9 @@ class ACF_BOOSTER {
 		//Check NG word list and input value, block posting if NG word is included
 		add_action( 'acf/validate_value/type=text', array( $this, 'block_post' ), 10, 4 );
 		add_action( 'acf/validate_value/type=textarea', array( $this, 'block_post' ), 10, 4 );
+	}
+	function acfb_load_textdomain() {
+		load_plugin_textdomain( 'acf-booster', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	}
 	/**
 	 * getInstance
@@ -82,14 +87,14 @@ class ACF_BOOSTER {
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'NG word function', 'ng-type-select' ),
+					'label'        => __( 'NG word function', 'acf-booster' ),
 					'instructions' => '',
 					'type'         => 'radio',
 					'name'         => 'ng-type-select',
 					'choices'      => array(
-						0 => __( 'Do not use in this field', 'ng-type-select' ),
-						1 => __( 'Use NG word lists', 'ng-type-select' ),
-						2 => __( 'Set a unique word', 'ng-type-select' ),
+						0 => __( 'Do not use in this field', 'acf-booster' ),
+						1 => __( 'Use NG word lists', 'acf-booster' ),
+						2 => __( 'Set a unique word', 'acf-booster' ),
 					),
 					'layout'       => 'horizontal',
 				)
@@ -97,8 +102,8 @@ class ACF_BOOSTER {
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Unique word' ),
-					'instructions' => __( 'Enter words separated by a comma' ),
+					'label'        => __( 'Unique word', 'acf-booster' ),
+					'instructions' => __( 'Enter words separated by a comma', 'acf-booster' ),
 					'name'         => 'unique_ng_word',
 					'type'         => 'text',
 				),
@@ -110,8 +115,8 @@ class ACF_BOOSTER {
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'         => __( 'Type Counter' ),
-					'instructions'  => __( 'display the input characters?' ),
+					'label'         => __( 'Type Counter', 'acf-booster' ),
+					'instructions'  => __( 'display the input characters?', 'acf-booster' ),
 					'name'          => 'show_count',
 					'type'          => 'true_false',
 					'ui'            => 1,
