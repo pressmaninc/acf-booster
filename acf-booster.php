@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 //NG words setting field key
-define( 'word_setting_key', 'field_5d9488ed2762d' );
+define( 'acfb_word_key', 'field_5d9488ed2762d' );
 
 class ACF_BOOSTER {
 	private static $instance;
@@ -151,7 +151,7 @@ class ACF_BOOSTER {
 	public function check_words() {
 		if ( get_field( 'ngword-control', 'option' ) ) {
 			if ( isset( $_POST['target_field'] ) ) {
-				$target = str_replace( 'acf-', '', $_POST['target_field'] );
+				$target = str_replace( 'acf-', '', sanitize_key( $_POST['target_field'] ) );
 				$object = get_field_object( $target );
 				if ( $object['ng-type-select'] == 2 ) {
 					echo json_encode( $object['unique_ng_word'] );
@@ -176,7 +176,7 @@ class ACF_BOOSTER {
 	 * @return $valid
 	 */
 	public function block_post( $valid, $value, $field, $input ) {
-		if ( ! $valid || $field['key'] == word_setting_key ) {
+		if ( ! $valid || $field['key'] == acfb_word_key ) {
 			return $valid;
 		}
 		if ( get_field( 'ngword-control', 'option' ) ) {

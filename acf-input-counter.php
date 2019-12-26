@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class ACF_INPUT_COUNTER {
+class ACFB_INPUT_COUNTER {
 	private static $instance;
 	public function __construct() {
 		//Output to a field that has a limited number of characters and the counter function is enabled
@@ -20,7 +20,7 @@ class ACF_INPUT_COUNTER {
 	 */
 	public static function getInstance() {
 		if ( empty( self::$instance ) ) {
-			self::$instance = new ACF_INPUT_COUNTER();
+			self::$instance = new ACFB_INPUT_COUNTER();
 		}
 		return self::$instance;
 	}
@@ -111,4 +111,4 @@ class ACF_INPUT_COUNTER {
 		return false;
 	}
 }
-$launch = ACF_INPUT_COUNTER::getInstance();
+$launch = ACFB_INPUT_COUNTER::getInstance();

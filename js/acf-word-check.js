@@ -1,10 +1,10 @@
 // Check function use of Gutenberg
-function isGutenbergActive() {
+function acfb_isGutenbergActive() {
     return typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined';
 }
 
 // Declare constants if Gutenberg is used
-if(isGutenbergActive()){
+if(acfb_isGutenbergActive()){
   const { getEditedPostAttribute } = wp.data.select( 'core/editor' );
   const title = getEditedPostAttribute( 'title' );
   const content = getEditedPostAttribute( 'content' );
@@ -19,7 +19,7 @@ if(isGutenbergActive()){
       'focusin input': 'lock_save',
 		},
     lock_save: function(e){
-      if(isGutenbergActive()){
+      if(acfb_isGutenbergActive()){
         wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
       }
     },
@@ -42,7 +42,7 @@ if(isGutenbergActive()){
               // Check for duplicate alerts
               if(!($(`#alert-${target_field}`).length)){
                 // Block post and display alert if using Gutenberg
-                if(isGutenbergActive()){
+                if(acfb_isGutenbergActive()){
                   wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
                 }
                 // Display an alert if prohibited words are included
@@ -54,7 +54,7 @@ if(isGutenbergActive()){
               // Turn off alert when input no longer contains prohibited words
               $(`#alert-${target_field}`).remove();
               // Unlock if you are using Gutenberg
-              if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+              if(acfb_isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
                 wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
                 wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
               }
@@ -78,7 +78,7 @@ if(isGutenbergActive()){
       'focusin input': 'lock_save',
 		},
     lock_save: function(e){
-      if(isGutenbergActive()){
+      if(acfb_isGutenbergActive()){
         wp.data.dispatch( 'core/editor' ).lockPostSaving( 'acf' );
       }
     },
@@ -101,7 +101,7 @@ if(isGutenbergActive()){
               // Check for duplicate alerts
               if(!($(`#alert-${target_field}`).length)){
                 // Block post and display alert if using Gutenberg
-                if(isGutenbergActive()){
+                if(acfb_isGutenbergActive()){
                   wp.data.dispatch( 'core/notices' ).createErrorNotice( 'Contains NG word', { id: 'NG_NOTICE',isDismissible: true} );
                 }
                 // Display an alert if prohibited words are included
@@ -113,7 +113,7 @@ if(isGutenbergActive()){
               // Turn off alert when input no longer contains prohibited words
               $(`#alert-${target_field}`).remove();
               // Unlock if you are using Gutenberg
-              if(isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
+              if(acfb_isGutenbergActive() && !($('div[name="notice-flag"]')[0])){
                 wp.data.dispatch( 'core/notices' ).removeNotice( 'NG_NOTICE' );
                 wp.data.dispatch( 'core/editor' ).unlockPostSaving( 'acf' );
               }

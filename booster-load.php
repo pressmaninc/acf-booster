@@ -33,7 +33,7 @@ function loading_booster() {
 				'title'                 => 'ng-words',
 				'fields'                => array(
 					array(
-						'key'               => word_setting_key,
+						'key'               => acfb_word_key,
 						'label'             => 'NG word list',
 						'name'              => 'word-list',
 						'type'              => 'textarea',
